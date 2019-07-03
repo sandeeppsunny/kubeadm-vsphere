@@ -1,0 +1,26 @@
+- hosts: workers
+  sudo: yes
+  vars:
+     vc_url: "{{ lookup('env', 'GOVC_URL') }}"
+     vc_user: "{{ lookup('env', 'GOVC_USERNAME') }}"
+     vc_pwd: "{{ lookup('env', 'GOVC_PASSWORD') }}"
+     vc_datastore: "{{ lookup('env', 'GOVC_DATASTORE') }}"
+     vc_resource_pool: "{{ lookup('env', 'GOVC_RESOURCE_POOL') }}"
+     master_ip: "{{ lookup('env', 'MASTER_IP') }}"
+     worker_number: "{{ groups['workers'].index(inventory_hostname)+1 }}"
+  tasks:
+  - name: Create vsphere.conf
+    template:
+      src: "vsphere.conf.template"
+      dest: "/etc/kubernetes/vsphere.conf"        
+
+  - name: Change hostname
+    shell: hostname worker-{{ worker_number }}
+  
+  - name: Worker join configuration
+    template:
+      src: "worker-config.yaml"
+      dest: "/worker-config.yaml"
+ 
+  - name: Join worker node to cluster
+    shell: kubeadm join --config /worker-config.yaml

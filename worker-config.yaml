@@ -1,0 +1,14 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: {{ master_ip }}:6443
+    token: y7yaev.9dvwxx6ny4ef8vlq
+    unsafeSkipCAVerification: true
+  timeout: 5m0s
+  tlsBootstrapToken: y7yaev.9dvwxx6ny4ef8vlq
+kind: JoinConfiguration
+nodeRegistration:
+  name: worker-{{ worker_number }}
+  kubeletExtraArgs:
+    cloud-provider: vsphere
+    cloud-config: "/etc/kubernetes/vsphere.conf"

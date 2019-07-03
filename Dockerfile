@@ -50,4 +50,8 @@ ADD vsphere.conf.template /vsphere.conf.template
 
 ADD master-config.yaml /master-config.yaml
 
+ADD worker-config.yaml /worker-config.yaml
+
+ADD worker-playbook.yaml /worker-playbook.yaml
+
 ENTRYPOINT ["bash","/govcscript.sh"]

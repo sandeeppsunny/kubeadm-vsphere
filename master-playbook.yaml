@@ -1,4 +1,4 @@
-- hosts: :master
+- hosts: master
   sudo: yes
   vars:
      vc_url: "{{ lookup('env', 'GOVC_URL') }}"
@@ -22,7 +22,7 @@
 
   - name: Create .kube directory
     file:
-      path: $HOME/.kube
+      path: /home/ubuntu/.kube
       state: directory
       mode: 0755
 
