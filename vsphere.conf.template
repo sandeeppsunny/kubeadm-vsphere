@@ -1,0 +1,21 @@
+[Global]
+user = "{{ vc_user }}"
+password = "{{ vc_pwd }}"
+port = "443"
+insecure-flag = "1"
+
+[VirtualCenter "{{ vc_url }}"]
+datacenters = "vcqaDC"
+
+[Workspace]
+server = "{{ vc_url }}"
+datacenter = "vcqaDC"
+default-datastore = "{{ vc_datastore }}"
+resourcepool-path = "{{ vc_resource_pool }}"
+folder = "k8s"
+
+[Disk]
+scsicontrollertype = pvscsi
+
+[Network]
+public-network = "VM Network"

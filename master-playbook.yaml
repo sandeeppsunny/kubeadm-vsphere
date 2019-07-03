@@ -1,0 +1,38 @@
+- hosts: :master
+  sudo: yes
+  vars:
+     vc_url: "{{ lookup('env', 'GOVC_URL') }}"
+     vc_user: "{{ lookup('env', 'GOVC_USERNAME') }}"
+     vc_pwd: "{{ lookup('env', 'GOVC_PASSWORD') }}"
+     vc_datastore: "{{ lookup('env', 'GOVC_DATASTORE') }}"
+     vc_resource_pool: "{{ lookup('env', 'GOVC_RESOURCE_POOL') }}"
+  tasks:
+  - name: Create vsphere.conf
+    template:
+      src: "vsphere.conf.template"
+      dest: "/etc/kubernetes/vsphere.conf"        
+  
+  - name: Cluster create configuration
+    copy:
+      src: "master-config.yaml"
+      dest: "/master-config.yaml"
+  
+  - name: Initialize master node
+    shell: kubeadm init --config /master-config.yaml
+
+  - name: Create .kube directory
+    file:
+      path: $HOME/.kube
+      state: directory
+      mode: 0755
+
+  - name: Copy admin.conf to user's kube config
+    copy:
+      src: /etc/kubernetes/admin.conf
+      dest: /home/ubuntu/.kube/config
+      remote_src: yes
+
+  - name: Install pod network
+    become: yes
+    become_user: ubuntu
+    shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml

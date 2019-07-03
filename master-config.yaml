@@ -1,0 +1,36 @@
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: InitConfiguration
+bootstrapTokens:
+       - groups:
+         - system:bootstrappers:kubeadm:default-node-token
+         token: y7yaev.9dvwxx6ny4ef8vlq
+         ttl: 0s
+         usages:
+         - signing
+         - authentication
+nodeRegistration:
+  kubeletExtraArgs:
+    cloud-provider: "vsphere"
+    cloud-config: "/etc/kubernetes/vsphere.conf"
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+kubernetesVersion: v1.15.0
+apiServer:
+  extraArgs:
+    cloud-provider: "vsphere"
+    cloud-config: "/etc/kubernetes/vsphere.conf"
+  extraVolumes:
+  - name: cloud
+    hostPath: "/etc/kubernetes/vsphere.conf"
+    mountPath: "/etc/kubernetes/vsphere.conf"
+controllerManager:
+  extraArgs:
+    cloud-provider: "vsphere"
+    cloud-config: "/etc/kubernetes/vsphere.conf"
+  extraVolumes:
+  - name: cloud
+    hostPath: "/etc/kubernetes/vsphere.conf"
+    mountPath: "/etc/kubernetes/vsphere.conf"
+networking:
+  podSubnet: "10.244.0.0/16"
