@@ -10,4 +10,4 @@ This project follows the steps from the following blog to create a k8s cluster o
 3. modify env.list file accordingly
 4. docker run --env-file env.list <image-id>
 
-This project uses ansible to execute the kube-adm commands in all the nodes.
+This project uses ansible to execute the kube-adm commands on all the nodes.
