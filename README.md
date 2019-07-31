@@ -8,6 +8,6 @@ This project follows the steps from the following blog to create a k8s cluster o
 1. git clone this repository
 2. docker build .
 3. modify env.list file accordingly
-4. docker run --env-file env.list <image-id>
+4. docker run --env-file env.list \<image-id\>
 
 This project uses ansible to execute the kube-adm commands on all the nodes.
