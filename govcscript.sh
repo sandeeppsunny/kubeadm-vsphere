@@ -10,8 +10,10 @@ echo "Importing node template..."
 KUBERNETES_OVA=`govc vm.info k8s-node-template`
 
 if [[ -z $KUBERNETES_OVA ]]; then
-   govc import.ova http://pa-dbc1110.eng.vmware.com/sandeepsunny/ovftool/ovftool/k8s-node-template.ova
+   govc import.ova http://pa-dbc1110.eng.vmware.com/sandeepsunny/ovftool/ovftool/k8s-template-ubuntu.ova
 fi
+
+govc object.rename /vcqaDC/vm/k8s-template-ubuntu k8s-node-template
 
 for (( c=0; c<=N; c++ ))
 do
