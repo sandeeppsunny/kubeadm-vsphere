@@ -31,10 +31,14 @@ RUN go get github.com/vmware/govmomi/govc && \
 RUN cd /root && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.0/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && mv ./kubectl /usr/bin/
 
-RUN mkdir -p /root/.ssh && cd ~/.ssh && wget http://pa-dbc1110.eng.vmware.com/sandeepsunny/ssh-pair/id_rsa && \
+ADD sshpair /sshpair
+
+RUN mkdir -p /root/.ssh && cd ~/.ssh && cp /sshpair/id_rsa . && \
     chmod 600 id_rsa
 
-RUN cd ~/.ssh && wget http://pa-dbc1110.eng.vmware.com/sandeepsunny/ssh-pair/id_rsa.pub
+RUN cd ~/.ssh && cp /sshpair/id_rsa.pub .
+
+RUN apt-get update
 
 RUN apt install software-properties-common -y 
 
